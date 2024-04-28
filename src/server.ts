@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import express from 'express';
+import express, { urlencoded } from 'express';
 import cors from 'cors'
 
 export class Server {
@@ -12,4 +12,12 @@ export class Server {
             console.log("Server running in port" + process.env.SERVER_PORT)
         })
     }
+
+    configuredServer() {
+        this.server.use(express.json({ limit: "1mb" }))
+        this.server.use(urlencoded({ extended: true }))
+        this.server.use(cors())
+    }
+
+    
 }
