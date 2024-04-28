@@ -68,13 +68,13 @@ export class UserController {
 
     public async updateUser(req: Request, res: Response) {
         const { name, about, image, password } = req.body;
-        const { id } = req.params;
+        const { userId } = req;
 
         if (!password) {
             return res.status(401).json({ message: "Password é obrigatorio" })
         }
         try {
-            const userExists = await prisma.user.findUnique({ where: { id: Number(id) } })
+            const userExists = await prisma.user.findUnique({ where: { id: userId } })
 
             if (!userExists) {
                 return res.status(401).json({ message: "Usuario não encontrado!" })
@@ -88,7 +88,7 @@ export class UserController {
 
             const user = await prisma.user.update({
                 where: {
-                    id: Number(id)
+                    id: userId
                 },
                 data: {
                     name,
