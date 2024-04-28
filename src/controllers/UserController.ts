@@ -65,4 +65,41 @@ export class UserController {
             return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
         }
     }
+
+    public async updateUser(req: Request, res: Response) {
+        const { name, about, image, password } = req.body;
+        const { id } = req.params;
+
+        if (!password) {
+            return res.status(401).json({ message: "Password é obrigatorio" })
+        }
+        try {
+            const userExists = await prisma.user.findUnique({ where: { id: Number(id) } })
+
+            if (!userExists) {
+                return res.status(401).json({ message: "Usuario não encontrado!" })
+            }
+
+            const passwordMatched = compare(password, userExists.password);
+
+            if (!passwordMatched) {
+                return res.status(401).json({ message: "Password incorreta" });
+            }
+
+            const user = await prisma.user.update({
+                where: {
+                    id: Number(id)
+                },
+                data: {
+                    name,
+                    about,
+                    image
+                }
+            })
+
+            return res.status(200).json({ message: "Usuario atualizado com sucesso!", user })
+        } catch (error) {
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+        }
+    }
 }
