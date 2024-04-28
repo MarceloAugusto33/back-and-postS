@@ -40,4 +40,29 @@ export class UserController {
             return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
         }
     }
+
+    public async getByUsername(req: Request, res: Response) {
+        const { username } = req.params;
+
+        try {
+            const user = await prisma.user.findUnique({
+                where: { username },
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    about: true,
+                    image: true,
+                    created_at: true,
+                    Post: true
+                }
+            });
+
+            if (!user) return res.status(401).json({ message: "Usuario não encontrado!" });
+
+            return res.status(200).json({ user })
+        } catch (error) {
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+        }
+    }
 }
