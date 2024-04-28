@@ -3,8 +3,11 @@ import { PostController } from "../controllers/PostController";
 import { authMiddleware } from "../middlewares/auth";
 
 
-export const postRouter = Router();
+const postRouter = Router();
 
 const postController = new PostController();
 
-postRouter.post('/', authMiddleware, postController.createPost)
+postRouter.get('/', postController.getAllPost);
+postRouter.post('/', authMiddleware, postController.createPost);
+
+export { postRouter }
