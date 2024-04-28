@@ -12,7 +12,7 @@ export class Server {
         this.configuredServer()
         this.setRoutes()
 
-        this.server.listen(process.env.SERVER_PORT, () => {
+        this.server.listen(process.env.SERVER_PORT || 3000, () => {
             console.log("Server running in port " + process.env.SERVER_PORT)
         })
     }
