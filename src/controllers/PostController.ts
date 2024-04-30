@@ -9,18 +9,18 @@ export class PostController {
                     author: {
                         select: {
                             id: true,
-                            name: true,
+                            username: true,
                             image: true
                         }
                     }
                 }
             });
 
-            return res.status(200).json({ posts })
+            return res.status(200).json({ posts });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
-    }
+    };
 
     public async getPostById(req: Request, res: Response) {
         const { id } = req.params;
@@ -29,14 +29,14 @@ export class PostController {
             const post = await prisma.post.findUnique({ where: { id: Number(id) } });
 
             if (!post) {
-                return res.status(401).json({ message: "Post não encontrado!" })
+                return res.status(401).json({ message: "Post não encontrado!" });
             }
 
-            return res.status(200).json({ post })
+            return res.status(200).json({ post });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
-    }
+    };
 
     public async createPost(req: Request, res: Response) {
         const { title, about, image } = req.body;
@@ -47,7 +47,7 @@ export class PostController {
         }
 
         if (!userId) {
-            return res.status(401).json({ message: "Id do usuario não encontrado!" })
+            return res.status(401).json({ message: "Id do usuario não encontrado!" });
         }
 
         try {
@@ -60,23 +60,23 @@ export class PostController {
                 }
             });
 
-            return res.status(201).json({ message: "Post publicado!", post })
+            return res.status(201).json({ message: "Post publicado!", post });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
-    }
+    };
 
     public async updatePost(req: Request, res: Response) {
         const { title, about, image } = req.body;
         const { id } = req.params;
-        const { userId } = req
+        const { userId } = req;
 
 
         try {
-            const post = await prisma.post.findUnique({ where: { id: Number(id) } })
+            const post = await prisma.post.findUnique({ where: { id: Number(id) } });
 
             if (!post) {
-                return res.status(401).json({ message: "Post não encontrado!" })
+                return res.status(401).json({ message: "Post não encontrado!" });
             }
 
             const postUpdated = await prisma.post.update({
@@ -91,33 +91,28 @@ export class PostController {
                 }
             });
 
-            return res.status(200).json({ message: "Post atualizado com sucesso!", post: postUpdated })
+            return res.status(200).json({ message: "Post atualizado com sucesso!", post: postUpdated });
 
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
-    }
+    };
 
     public async deletePost(req: Request, res: Response) {
         const { id } = req.params;
-        const { userId } = req
+        const { userId } = req;
 
         try {
-            const post = await prisma.post.findUnique({ where: { id: Number(id) } })
+            const post = await prisma.post.findUnique({ where: { id: Number(id) } });
 
             if (!post) {
-                return res.status(401).json({ message: "Post não encontrado!" })
+                return res.status(401).json({ message: "Post não encontrado!" });
             }
-            const postDeleted = await prisma.post.delete({
-                where: {
-                    id: Number(id),
-                    user_id: userId
-                }
-            })
+            const postDeleted = await prisma.post.delete({ where: { id: Number(id), user_id: userId } });
 
-            return res.status(200).json({ message: "Post deletado!", postDeleted })
+            return res.status(200).json({ message: "Post deletado!", postDeleted });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
-    }
+    };
 }

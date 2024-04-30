@@ -11,6 +11,6 @@ userRouter.post("/", userController.createUser);
 userRouter.put('/', authMiddleware, userController.updateUser);
 
 
-export { userRouter }
+export { userRouter };
 
 

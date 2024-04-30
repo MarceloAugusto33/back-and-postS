@@ -22,9 +22,9 @@ export class UserController {
 
             if (!user) return res.status(401).json({ message: "Usuario não encontrado!" });
 
-            return res.status(200).json({ user })
+            return res.status(200).json({ user });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
     }
 
@@ -33,13 +33,13 @@ export class UserController {
         const { userId } = req;
 
         if (!password) {
-            return res.status(401).json({ message: "Password é obrigatorio" })
+            return res.status(401).json({ message: "Password é obrigatorio" });
         }
         try {
-            const userExists = await prisma.user.findUnique({ where: { id: userId } })
+            const userExists = await prisma.user.findUnique({ where: { id: userId } });
 
             if (!userExists) {
-                return res.status(401).json({ message: "Usuario não encontrado!" })
+                return res.status(401).json({ message: "Usuario não encontrado!" });
             }
 
             const passwordMatched = compare(password, userExists.password);
@@ -57,11 +57,11 @@ export class UserController {
                     about,
                     image
                 }
-            })
+            });
 
-            return res.status(200).json({ message: "Usuario atualizado com sucesso!", user })
+            return res.status(200).json({ message: "Usuario atualizado com sucesso!", user });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
     }
     
@@ -69,7 +69,7 @@ export class UserController {
         const { username, name, email, password } = req.body;
 
         if (!username || !name || !email || !password) {
-            return res.status(401).json({ message: "Username, name, email e password são obrigatorios" })
+            return res.status(401).json({ message: "Username, name, email e password são obrigatorios" });
         }
 
         try {
@@ -83,7 +83,7 @@ export class UserController {
             });
 
             if (userExists) {
-                return res.status(401).json({ message: "Email e/ou username em uso!" })
+                return res.status(401).json({ message: "Email e/ou username em uso!" });
             }
 
             const hashPassword = await hash(password, 8);
@@ -95,11 +95,11 @@ export class UserController {
                     email,
                     password: hashPassword
                 }
-            })
+            });
 
-            return res.status(201).json({ message: "Usuario cadastrado", user })
+            return res.status(201).json({ message: "Usuario cadastrado", user });
         } catch (error) {
-            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" })
+            return res.status(500).json(error instanceof Error ? { message: error.message } : { message: "Erro interno no servidor" });
         }
     }
 }
