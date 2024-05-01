@@ -8,10 +8,8 @@ export class Server {
 
     constructor() {
         this.server = express();
-
         this.configuredServer();
         this.setRoutes();
-
         this.server.listen(process.env.SERVER_PORT || 3000, () => {
             console.log("Server running in port " + process.env.SERVER_PORT)
         });

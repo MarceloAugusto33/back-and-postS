@@ -26,7 +26,7 @@ export class PostController {
         const { id } = req.params;
 
         try {
-            const post = await prisma.post.findUnique({ where: { id: Number(id) } });
+            const post = await prisma.post.findUnique({ where: { id } });
 
             if (!post) {
                 return res.status(401).json({ message: "Post não encontrado!" });
@@ -73,7 +73,7 @@ export class PostController {
 
 
         try {
-            const post = await prisma.post.findUnique({ where: { id: Number(id) } });
+            const post = await prisma.post.findUnique({ where: { id } });
 
             if (!post) {
                 return res.status(401).json({ message: "Post não encontrado!" });
@@ -81,7 +81,7 @@ export class PostController {
 
             const postUpdated = await prisma.post.update({
                 where: {
-                    id: Number(id),
+                    id,
                     user_id: userId
                 },
                 data: {
@@ -103,12 +103,12 @@ export class PostController {
         const { userId } = req;
 
         try {
-            const post = await prisma.post.findUnique({ where: { id: Number(id) } });
+            const post = await prisma.post.findUnique({ where: { id} });
 
             if (!post) {
                 return res.status(401).json({ message: "Post não encontrado!" });
             }
-            const postDeleted = await prisma.post.delete({ where: { id: Number(id), user_id: userId } });
+            const postDeleted = await prisma.post.delete({ where: { id, user_id: userId } });
 
             return res.status(200).json({ message: "Post deletado!", postDeleted });
         } catch (error) {

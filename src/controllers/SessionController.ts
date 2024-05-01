@@ -29,7 +29,7 @@ export class SessionController {
                 return res.status(500).json({ message: "Erro interno na chave!" });
             }
 
-            const token = sign({ id: Number(user.id) }, secretKey, { expiresIn: '1d' });
+            const token = sign({ id: user.id }, secretKey, { expiresIn: '1d' });
 
             return res.status(201).json({ user, token });
 

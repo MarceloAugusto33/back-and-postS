@@ -20,7 +20,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
         const decoded = verify(token, keySecret);
 
-        const { id } = decoded as JwtPayload & { id: number };
+        const { id } = decoded as JwtPayload & { id: string };
 
         req.userId = id;
 

@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(uuid())
   username String  @unique @db.VarChar(50)
   name     String
   about    String? @db.VarChar(200)
@@ -30,11 +30,11 @@ model User {
 }
 
 model Post {
-  id      Int     @id @default(autoincrement())
+  id      String  @id @default(uuid())
   title   String  @db.VarChar(100)
   about   String  @db.VarChar(200)
   image   String?
-  user_id Int
+  user_id String
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

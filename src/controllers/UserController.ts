@@ -42,7 +42,7 @@ export class UserController {
                 return res.status(401).json({ message: "Usuario não encontrado!" });
             }
 
-            const passwordMatched = compare(password, userExists.password);
+            const passwordMatched = await compare(password, userExists.password);
 
             if (!passwordMatched) {
                 return res.status(401).json({ message: "Password incorreta" });
